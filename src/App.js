@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const params = {
-    access_key: '9c360f87e4c049898da6e0e7b7076fad',
+    access_key: '',
     query: '91601'
   };
 
