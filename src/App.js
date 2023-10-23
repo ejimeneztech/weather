@@ -1,13 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   const params = {
-    access_key: '',
-    query: '91601'
+    access_key: "",
+    query: "91601",
   };
 
-  const apiUrl = 'http://api.weatherbit.io/v2.0/current';
+  const apiUrl = "http://api.weatherbit.io/v2.0/current";
 
   //construct url with query params
   const url = `${apiUrl}?postal_code=${params.query}&country=US&key=${params.access_key}`;
