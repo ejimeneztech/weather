@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SkyShift.css";
 import search_icon from "../Assets/search.png";
 import clear_icon from "../Assets/clear.png";
@@ -27,12 +27,33 @@ const SkyShift = () => {
   //     console.log(data);
   //   });
 
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const search = () => {
+    if (searchValue === ""){
+      alert("Please enter a city name.");
+    } else {
+      console.log("Search Value:", searchValue);
+    }
+    
+
+  };
   return (
     <>
       <div className="container">
         <div className="top-bar">
-          <input type="text" className="cityInput" placeholder="Search" />
-          <div className="search-icon">
+          <input
+            type="text"
+            className="cityInput"
+            value={searchValue}
+            onChange={handleInputChange}
+            placeholder="Search"
+          />
+          <div className="search-icon" onClick={search}>
             <img src={search_icon} alt="" />
           </div>
         </div>
