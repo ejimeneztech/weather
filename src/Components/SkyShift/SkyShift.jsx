@@ -10,37 +10,51 @@ import wind_icon from "../Assets/wind.png";
 import humidity_icon from "../Assets/humidity.png";
 
 const SkyShift = () => {
-  // const params = {
-  //   access_key: "",
-  //   query: "91601",
-  // };
-
-  // const apiUrl = "http://api.weatherbit.io/v2.0/current";
-
-  // //construct url with query params
-  // const url = `${apiUrl}?postal_code=${params.query}&country=US&key=${params.access_key}`;
-
-  // fetch(url)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // console.log(`Current Temperatture in ${data.location.name} is ${data.current.temperature}℃`)
-  //     console.log(data);
-  //   });
-
   const [searchValue, setSearchValue] = useState("");
+  const [temp, setTemp] = useState(null);
+  const [location, setLocation] = useState("");
+  const [humidity, setHumidty] = useState(null);
+  const [windSpeed, setWindSpeed] = useState(null);
 
   const handleInputChange = (event) => {
     setSearchValue(event.target.value);
   };
 
+  const params = {
+    APIkey: "385f7e292d4355bc9c0fe2c1d06cd713",
+    cityName: searchValue,
+  };
+
+  const URL = `https://api.openweathermap.org/data/2.5/weather?q=${params.cityName}&units=imperial&APPID=${params.APIkey}`;
+
   const search = () => {
-    if (searchValue === ""){
+    if (searchValue === "") {
       alert("Please enter a city name.");
     } else {
-      console.log("Search Value:", searchValue);
+      fetch(URL)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setTemp(data.main.temp);
+          setLocation(data.name);
+          setHumidty(data.main.humidity);
+          setWindSpeed(data.wind.speed);
+          
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
-    
 
+   
+  
+    // const location = weatherData.sys.name;
+    // const humidity = weatherData.main.humidity;
+    // const windSpeed = weatherData.wind.speed;
   };
   return (
     <>
@@ -60,20 +74,20 @@ const SkyShift = () => {
         <div className="weather-image">
           <img src={cloud_icon} alt="" />
         </div>
-        <div className="weather-temp">24 C</div>
-        <div className="weather-location">Los Angeles</div>
+        <div className="weather-temp">{Math.round(temp)} C</div>
+        <div className="weather-location">{location}</div>
         <div className="data-container">
           <div className="element">
             <img src={humidity_icon} alt="" className="icon" />
             <div className="data">
-              <div className="humidity-percent">64%</div>
+              <div className="humidity-percent">{humidity}%</div>
               <div className="text">Humidity</div>
             </div>
           </div>
           <div className="element">
             <img src={wind_icon} alt="" className="icon" />
             <div className="data">
-              <div className="wind-speed">18 km/h</div>
+              <div className="wind-speed">{windSpeed} km/h</div>
               <div className="text">Wind Speed</div>
             </div>
           </div>
