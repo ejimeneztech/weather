@@ -74,7 +74,7 @@ const SkyShift = () => {
         <div className="weather-image">
           <img src={cloud_icon} alt="" />
         </div>
-        <div className="weather-temp">{Math.round(temp)} C</div>
+        <div className="weather-temp">{Math.round(temp)} °F</div>
         <div className="weather-location">{location}</div>
         <div className="data-container">
           <div className="element">
