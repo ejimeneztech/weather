@@ -43,7 +43,7 @@ const SkyShift = () => {
           setTemp(data.main.temp);
           setLocation(data.name);
           setHumidty(data.main.humidity);
-          setWindSpeed(data.wind.speed);
+          setWindSpeed(Math.floor(data.wind.speed));
 
           //set state for appropriate weather icon.
           if (
