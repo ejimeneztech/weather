@@ -15,6 +15,7 @@ const SkyShift = () => {
   const [location, setLocation] = useState("");
   const [humidity, setHumidty] = useState(null);
   const [windSpeed, setWindSpeed] = useState(null);
+  const [weatherIcon, setWeatherIcon] = useState(cloud_icon);
 
   const handleInputChange = (event) => {
     setSearchValue(event.target.value);
@@ -43,18 +44,51 @@ const SkyShift = () => {
           setLocation(data.name);
           setHumidty(data.main.humidity);
           setWindSpeed(data.wind.speed);
-          
+
+          //set state for appropriate weather icon.
+          if (
+            data.weather[0].icon === "01d" || //clear sky
+            data.weather[0].icon === "01n"
+          ) {
+            setWeatherIcon(clear_icon);
+          } else if (
+            data.weather[0].icon === "02d" || //few clouds
+            data.weather[0].icon === "02n"
+          ) {
+            setWeatherIcon(cloud_icon);
+          } else if (
+            data.weather[0].icon === "03d" || //scattered clouds
+            data.weather[0].icon === "03n"
+          ) {
+            setWeatherIcon(cloud_icon);
+          } else if (
+            data.weather[0].icon === "04d" || //broken clouds
+            data.weather[0].icon === "04n"
+          ) {
+            setWeatherIcon(cloud_icon);
+          } else if (
+            data.weather[0].icon === "09d" || //shower rain
+            data.weather[0].icon === "09n"
+          ) {
+            setWeatherIcon(drizzle_icon);
+          } else if (
+            data.weather[0].icon === "10d" || //rain
+            data.weather[0].icon === "10n"
+          ) {
+            setWeatherIcon(rain_icon);
+          } else if (
+            data.weather[0].icon === "13d" || //snow
+            data.weather[0].icon === "13n"
+          ) {
+            setWeatherIcon(snow_icon);
+          } else {
+            setWeatherIcon(clear_icon); //default
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
-
-   
-  
-    // const location = weatherData.sys.name;
-    // const humidity = weatherData.main.humidity;
-    // const windSpeed = weatherData.wind.speed;
   };
   return (
     <>
@@ -72,7 +106,7 @@ const SkyShift = () => {
           </div>
         </div>
         <div className="weather-image">
-          <img src={cloud_icon} alt="" />
+          <img src={weatherIcon} alt="" />
         </div>
         <div className="weather-temp">{Math.round(temp)} °F</div>
         <div className="weather-location">{location}</div>
