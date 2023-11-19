@@ -66,9 +66,9 @@ const SkyShift = () => {
           const defaultIcon = clear_icon;
 
           const conditionCode = data.weather[0].icon;
-          const displayIcon = weatherIconMappings[conditionCode] || defaultIcon;
+          const selectedIcon = weatherIconMappings[conditionCode] || defaultIcon;
 
-          setWeatherIcon(displayIcon);
+          setWeatherIcon(selectedIcon);
         })
         .catch((error) => {
           console.error("Error:", error);
