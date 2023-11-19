@@ -28,6 +28,23 @@ const SkyShift = () => {
 
   const URL = `https://api.openweathermap.org/data/2.5/weather?q=${params.cityName}&units=imperial&APPID=${params.APIkey}`;
 
+  const weatherIconMappings = {
+    "01d": clear_icon, // clear sky (day)
+    "01n": clear_icon, // clear sky (night)
+    "02d": cloud_icon, // few clouds (day)
+    "02n": cloud_icon, // few clouds (night)
+    "03d": cloud_icon, // scattered clouds (day)
+    "03n": cloud_icon, // scattered clouds (night)
+    "04d": cloud_icon, // broken clouds (day)
+    "04n": cloud_icon, // broken clouds (night)
+    "09d": drizzle_icon, // shower rain (day)
+    "09n": drizzle_icon, // shower rain (night)
+    "10d": rain_icon, // rain (day)
+    "10n": rain_icon, // rain (night)
+    "13d": snow_icon, // snow (day)
+    "13n": snow_icon, // snow (night)
+  };
+
   const search = () => {
     if (searchValue === "") {
       alert("Please enter a city name.");
@@ -46,44 +63,12 @@ const SkyShift = () => {
           setWindSpeed(Math.floor(data.wind.speed));
 
           //set state for appropriate weather icon.
-          if (
-            data.weather[0].icon === "01d" || //clear sky
-            data.weather[0].icon === "01n"
-          ) {
-            setWeatherIcon(clear_icon);
-          } else if (
-            data.weather[0].icon === "02d" || //few clouds
-            data.weather[0].icon === "02n"
-          ) {
-            setWeatherIcon(cloud_icon);
-          } else if (
-            data.weather[0].icon === "03d" || //scattered clouds
-            data.weather[0].icon === "03n"
-          ) {
-            setWeatherIcon(cloud_icon);
-          } else if (
-            data.weather[0].icon === "04d" || //broken clouds
-            data.weather[0].icon === "04n"
-          ) {
-            setWeatherIcon(cloud_icon);
-          } else if (
-            data.weather[0].icon === "09d" || //shower rain
-            data.weather[0].icon === "09n"
-          ) {
-            setWeatherIcon(drizzle_icon);
-          } else if (
-            data.weather[0].icon === "10d" || //rain
-            data.weather[0].icon === "10n"
-          ) {
-            setWeatherIcon(rain_icon);
-          } else if (
-            data.weather[0].icon === "13d" || //snow
-            data.weather[0].icon === "13n"
-          ) {
-            setWeatherIcon(snow_icon);
-          } else {
-            setWeatherIcon(clear_icon); //default
-          }
+          const defaultIcon = clear_icon;
+
+          const conditionCode = data.weather[0].icon;
+          const displayIcon = weatherIconMappings[conditionCode] || defaultIcon;
+
+          setWeatherIcon(displayIcon);
         })
         .catch((error) => {
           console.error("Error:", error);
